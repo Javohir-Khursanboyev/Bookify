@@ -1,4 +1,5 @@
 ﻿using Bookify.Domain.Abstractions;
+using Bookify.Domain.Bookings.Events;
 using Bookify.Domain.Shared;
 
 namespace Bookify.Domain.Bookings;
@@ -59,6 +60,11 @@ public sealed class Booking : Entity
             pricingDetail.CleaningFee,
             pricingDetail.AmenitiesUpCharge,
             pricingDetail.TotalPrice,
+            BookingStatus.Reserved,
             utcNow);
+         
+        booking.RaiseDomainEvent(new BookingReservedDomainEvent(booking.Id));
+
+        return booking;
     }
 }
