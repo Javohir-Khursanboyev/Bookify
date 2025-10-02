@@ -9,4 +9,6 @@ public interface IBookingRepository
         Apartment apartment,
         DateRange duration,
         CancellationToken cancellationToken = default);
+
+    Task<Booking?> SelectByIdAsync(Guid id, CancellationToken cancellationToken = default);
 }

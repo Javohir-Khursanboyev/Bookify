@@ -3,7 +3,7 @@ using MediatR;
 
 namespace Bookify.Application.Abstractions.Messaging;
 
-public interface IQueeryHandler<TQuery, TResponse> : IRequestHandler<TQuery, Result<TResponse>>
+public interface IQueryHandler<TQuery, TResponse> : IRequestHandler<TQuery, Result<TResponse>>
     where TQuery : IQuery<TResponse>
 {
 }
