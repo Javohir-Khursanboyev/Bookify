@@ -1,4 +1,4 @@
-﻿namespace Bookify.Domain.Apartments;
+﻿namespace Bookify.Domain.Shared;
 
 public record Currency
 {
@@ -10,7 +10,7 @@ public record Currency
 
     public static Currency FromCode(string code)
     {
-        return All.FirstOrDefault(c => c.Code == code)??
+        return All.FirstOrDefault(c => c.Code == code) ??
             throw new ApplicationException("The currency code is invalid");
     }
 
