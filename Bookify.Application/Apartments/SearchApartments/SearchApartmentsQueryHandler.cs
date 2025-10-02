@@ -11,7 +11,7 @@ internal sealed class SearchApartmentsQueryHandler : IQueryHandler<SearchApartme
    
     private static readonly int[] ActiveBookingStatuses =
     [
-       (int)BookingStatus.Reserved,
+        (int)BookingStatus.Reserved,
         (int)BookingStatus.Confirmed,
         (int)BookingStatus.Completed,
     ];
