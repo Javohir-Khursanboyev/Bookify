@@ -10,5 +10,5 @@ public interface IBookingRepository
         DateRange duration,
         CancellationToken cancellationToken = default);
 
-    Task<Booking?> SelectByIdAsync(Guid id, CancellationToken cancellationToken = default);
+    Task<Booking?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default);
 }
