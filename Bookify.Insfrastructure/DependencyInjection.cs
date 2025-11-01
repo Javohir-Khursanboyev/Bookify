@@ -11,6 +11,8 @@ using Bookify.Domain.Abstractions;
 using Bookify.Application.Abstractions.Data;
 using Bookify.Insfrastructure.Data;
 using Dapper;
+using Bookify.Application.Abstractions.Email;
+using Bookify.Insfrastructure.Email;
 
 namespace Bookify.Insfrastructure;
 
@@ -20,6 +22,7 @@ public static class DependencyInjection
     {
 
         services.AddTransient<IDateTimeProvider, DateTimeProvider>();
+        services.AddTransient<IEmailService, EmailService>();
 
         var connectionString = configuration.GetConnectionString("Database") ??
             throw new ArgumentNullException(nameof(configuration));

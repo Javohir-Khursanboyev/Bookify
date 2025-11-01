@@ -1,0 +1,39 @@
+services:
+  bookify_api:
+    image: javohirkhursanboyev/bookify_api:latest
+    build:
+      context: .
+      dockerfile: Bookify.Api\Dockerfile
+    container_name: bookify_api
+    restart: always
+    ports:
+      - "8081:8080"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Prod
+      - ASPNETCORE_URLS=http://+:8080
+    depends_on:
+      - bookify_db
+    networks:
+      - bookify_network
+
+  bookify_db:
+    image: postgres:latest  
+    container_name: bookify_db
+    restart: always
+    environment:
+      POSTGRES_USER: bookify_user
+      POSTGRES_PASSWORD: root
+      POSTGRES_DB: bookify_db
+    ports:
+      - "5433:5432"
+    volumes:
+      - bookify_db_data:/var/lib/postgresql/data
+    networks:
+      - bookify_network  
+
+volumes:
+    bookify_db_data:
+
+networks:
+    bookify_network:
+        driver: bridge
