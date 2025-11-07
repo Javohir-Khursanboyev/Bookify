@@ -1,3 +1,5 @@
+
+
 using Bookify.Application;
 using Bookify.Insfrastructure;
 
@@ -17,6 +19,7 @@ var app = builder.Build();
 app.UseSwagger();
 app.UseSwaggerUI();
 app.ApplyMigrations();
+app.SeedData();
 
 
 app.UseHttpsRedirection();

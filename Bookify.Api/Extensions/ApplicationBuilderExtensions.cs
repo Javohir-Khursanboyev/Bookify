@@ -12,8 +12,8 @@ public static class ApplicationBuilderExtensions
         dbContext.Database.Migrate();
     }
 
-    //public static void UseExceptionHandling(this IApplicationBuilder app)
-    //{
-    //    app.UseMiddleware<ExceptionHandlingMiddleware>();
-    //}
+    public static void UseExceptionHandling(this IApplicationBuilder app)
+    {
+        app.UseMiddleware<ExceptionHandlingMiddleware>();
+    }
 }
