@@ -23,16 +23,30 @@ services:
     environment:
       POSTGRES_USER: bookify_user
       POSTGRES_PASSWORD: root
-      POSTGRES_DB: bookify_db
+      POSTGRES_DB: bookifyDb
     ports:
-      - "5433:5432"
+      - "5432:5432"
     volumes:
       - bookify_db_data:/var/lib/postgresql/data
     networks:
       - bookify_network  
 
+  bookify_idp:
+    container_name: bookify_idp
+    image: quay.io/keycloak/keycloak:latest
+    restart: always
+    command: start-dev --import-realm
+    environment:
+      KC_BOOTSTRAP_ADMIN_USERNAME: admin
+      KC_BOOTSTRAP_ADMIN_PASSWORD: admin
+    volumes:
+      - bookify_idp_data:/opt/keycloak/data
+      - ./.files/bookify-realm-export.json:/opt/keycloak/data/import/realm.json
+    ports:
+      - 18080:8080
 volumes:
     bookify_db_data:
+    bookify_idp_data:
 
 networks:
     bookify_network:

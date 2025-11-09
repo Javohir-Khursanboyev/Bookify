@@ -19,10 +19,12 @@ var app = builder.Build();
 app.UseSwagger();
 app.UseSwaggerUI();
 app.ApplyMigrations();
-app.SeedData();
+// app.SeedData();
 
 
 app.UseHttpsRedirection();
+
+app.UseAuthentication();
 
 app.UseAuthorization();
 

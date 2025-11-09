@@ -9,14 +9,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Remove="appsettings.Prod.json" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Include="appsettings.Prod.json" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="Bogus" Version="35.6.5" />
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.0.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.10">
