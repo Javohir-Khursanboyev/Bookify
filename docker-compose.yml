@@ -3,7 +3,7 @@ services:
     image: javohirkhursanboyev/bookify_api:latest
     build:
       context: .
-      dockerfile: Bookify.Api\Dockerfile
+      dockerfile: src\Bookify.Api\Dockerfile
     container_name: bookify_api
     restart: always
     ports:
@@ -27,7 +27,7 @@ services:
     ports:
       - "5432:5432"
     volumes:
-      - bookify_db_data:/var/lib/postgresql/data
+      - bookify_db_data:/var/lib/postgresql
     networks:
       - bookify_network  
 

@@ -12,10 +12,13 @@ EXPOSE 8081
 FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
-COPY ["Bookify.Api/Bookify.Api.csproj", "Bookify.Api/"]
-RUN dotnet restore "./Bookify.Api/Bookify.Api.csproj"
+COPY ["src/Bookify.Api/Bookify.Api.csproj", "src/Bookify.Api/"]
+COPY ["src/Bookify.Application/Bookify.Application.csproj", "src/Bookify.Application/"]
+COPY ["src/Bookify.Domain/Bookify.Domain.csproj", "src/Bookify.Domain/"]
+COPY ["src/Bookify.Insfrastructure/Bookify.Insfrastructure.csproj", "src/Bookify.Insfrastructure/"]
+RUN dotnet restore "./src/Bookify.Api/Bookify.Api.csproj"
 COPY . .
-WORKDIR "/src/Bookify.Api"
+WORKDIR "/src/src/Bookify.Api"
 RUN dotnet build "./Bookify.Api.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
 # This stage is used to publish the service project to be copied to the final stage
