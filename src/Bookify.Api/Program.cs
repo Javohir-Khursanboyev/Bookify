@@ -16,6 +16,8 @@ builder.Services.AddInfrastructure(builder.Configuration);
 
 var app = builder.Build();
 
+app.UseExceptionHandling();
+
 app.UseSwagger();
 app.UseSwaggerUI();
 app.ApplyMigrations();
