@@ -8,7 +8,7 @@ public sealed class UserRepresentationalModel
     public string LastName { get; set; }
     public string Email { get; set; }
     public string Username { get; set; }
-    public bool Enabled { get; set; } 
+    public bool Enabled { get; set; }
     public bool EmailVerified { get; set; }
     public CredentialRepresentationalModel[] Credentials { get; set; }
     internal static UserRepresentationalModel FromUser(User user)

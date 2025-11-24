@@ -1,22 +1,27 @@
-﻿using Bookify.Insfrastructure.Clock;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
+﻿using Bookify.Application.Abstractions.Authentication;
 using Bookify.Application.Abstractions.Clock;
-using Microsoft.Extensions.DependencyInjection;
-using Bookify.Domain.Users;
-using Bookify.Insfrastructure.Repositories;
+using Bookify.Application.Abstractions.Data;
+using Bookify.Application.Abstractions.Email;
+using Bookify.Domain.Abstractions;
 using Bookify.Domain.Apartments;
 using Bookify.Domain.Bookings;
-using Bookify.Domain.Abstractions;
-using Bookify.Application.Abstractions.Data;
+using Bookify.Domain.Users;
 using Bookify.Insfrastructure.Data;
-using Dapper;
-using Bookify.Application.Abstractions.Email;
-using Bookify.Insfrastructure.Email;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Bookify.Insfrastructure.Authentication;
+using Bookify.Insfrastructure.Authorization;
+using Bookify.Insfrastructure.Clock;
+using Bookify.Insfrastructure.Email;
+using Bookify.Insfrastructure.Repositories;
+using Dapper;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
-using Bookify.Application.Abstractions.Authentication;
+using AuthenticationOptions = Bookify.Insfrastructure.Authentication.AuthenticationOptions;
+using AuthenticationService = Bookify.Insfrastructure.Authentication.AuthenticationService;
+using IAuthenticationService = Bookify.Application.Abstractions.Authentication.IAuthenticationService;
 
 namespace Bookify.Insfrastructure;
 
@@ -28,7 +33,15 @@ public static class DependencyInjection
 
         AddAuthentication(services, configuration);
 
+        AddAuthorizatio(services);
         return services;
+    }
+
+    private static void AddAuthorizatio(IServiceCollection services)
+    {
+        services.AddScoped<AuthorizationService>();
+
+        services.AddTransient<IClaimsTransformation, CustomClaimsTransformation>();
     }
 
     private static void AddAuthentication(IServiceCollection services, IConfiguration configuration)
@@ -56,6 +69,10 @@ public static class DependencyInjection
             var keyCloakOptions = serviceProvider.GetRequiredService<IOptions<KeycloakOptions>>().Value;
             httpClient.BaseAddress = new Uri(keyCloakOptions.TokenUrl);
         });
+
+        services.AddHttpContextAccessor();
+
+        services.AddScoped<IUserContext, UserContext>();
     }
 
     private static void AddPersistence(IServiceCollection services, IConfiguration configuration)

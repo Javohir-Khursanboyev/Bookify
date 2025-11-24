@@ -2,6 +2,9 @@
 using Microsoft.AspNetCore.Mvc;
 using Bookify.Application.Users.RegisterUser;
 using Bookify.Application.Users.LoginUser;
+using Bookify.Application.Users.GetLoggedInUser;
+using Bookify.Domain.Abstractions;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Bookify.Api.Controllers.Users;
 
@@ -39,6 +42,17 @@ public class UsersController(ISender sender) : ControllerBase
 
         if (result.IsFailure)
             return BadRequest(result.Error);
+
+        return Ok(result.Value);
+    }
+
+    [HttpGet("me")]
+    [Authorize(Roles = Roles.Registered)]
+    public async Task<IActionResult> GetLoggedInUser(CancellationToken cancellationToken)
+    {
+        var query = new GetLoggedInUserQuery();
+
+        Result<UserResponse> result = await sender.Send(query, cancellationToken);
 
         return Ok(result.Value);
     }

@@ -1,5 +1,6 @@
 ﻿using Bookify.Domain.Apartments;
 using Bookify.Domain.Bookings;
+using Bookify.Insfrastructure;
 using Microsoft.EntityFrameworkCore;
 
 namespace Bookify.Insfrastructure.Repositories;

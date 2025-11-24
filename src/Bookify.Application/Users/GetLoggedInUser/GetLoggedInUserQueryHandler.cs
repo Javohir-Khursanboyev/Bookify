@@ -1,0 +1,43 @@
+﻿using System.Data;
+using Bookify.Application.Abstractions.Authentication;
+using Bookify.Application.Abstractions.Data;
+using Bookify.Application.Abstractions.Messaging;
+using Bookify.Domain.Abstractions;
+using Dapper;
+
+namespace Bookify.Application.Users.GetLoggedInUser;
+
+internal sealed class GetLoggedInUserQueryHandler : IQueryHandler<GetLoggedInUserQuery, UserResponse>
+{
+    private readonly ISqlConnectionFactory sqlConnectionFactory;
+    private readonly IUserContext userContext;
+
+    public GetLoggedInUserQueryHandler(ISqlConnectionFactory sqlConnectionFactory, IUserContext userContext)
+    {
+        this.sqlConnectionFactory = sqlConnectionFactory;
+        this.userContext = userContext;
+    }
+    public async Task<Result<UserResponse>> Handle(GetLoggedInUserQuery request, CancellationToken cancellationToken)
+    {
+        using IDbConnection connection = sqlConnectionFactory.CreateConnection();
+
+        const string sql = """
+            SELECT
+                id AS Id,
+                first_name AS FirstName,
+                last_name AS LastName,
+                email AS Email
+            FROM users
+            WHERE identity_id = @IdentityId
+            """;
+
+        UserResponse user = await connection.QuerySingleAsync<UserResponse>(
+          sql,
+          new
+          {
+              userContext.IdentityId
+          });
+
+        return user;
+    }
+}
